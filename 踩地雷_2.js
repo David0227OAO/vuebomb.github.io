@@ -1,0 +1,145 @@
+let answer = []; // 答案
+let flag = false; //檢查是否可繼續遊玩
+let timestop = false; //計時器是否暫停
+let senser_creatanswer = true; //是否要設定answerarray
+
+//新局呼叫
+function newGame() {
+  flag = true;
+  console.log(flag);
+}
+
+//產生地雷位置
+function creatanswer(posx, posy) {
+  if (senser_creatanswer == true) {
+    let bomb = document.getElementById("numberofbomb").value; //炸彈數量
+    let x = document.getElementById("long").value; //抓長
+    let y = document.getElementById("wide").value; //抓寬
+    //console.log("creatanswer");
+    let boom = 0; //炸彈數量
+    //設定炸彈位置
+    function resectbomb() {
+      for (let i = 0; i < y; i++) {
+        for (let j = 0; j < x; j++) {
+          if (!answer[i]) answer[i] = [];
+          let val = Math.floor(Math.random() * 4);
+          if (answer[i][j] == 1) continue;
+          else if (i == posx && j == posy) continue;
+          else if (boom < bomb) answer[i][j] = val < 3 ? 0 : 1;
+          if (answer[i][j] == 1) boom++;
+          //console.log(boom);
+          if (boom == bomb) break;
+        }
+        if (boom == bomb) break;
+      }
+    }
+    while (boom < bomb) resectbomb();
+    //console.log(bomb);
+    //console.log(x,y);
+    console.log(answer);
+  }
+  senser_creatanswer = false;
+}
+
+//確認周圍有多少炸彈
+function clickCall(posX, posY) {
+  let tablelenx = document.getElementById("long").value; //遊戲區塊 X
+  let tebleleny = document.getElementById("wide").value; //遊戲區塊 Y
+  tablelenx.disabled = true;
+  tebleleny.disabled = true;
+  //console.log(lenx,leny)
+  if (answer[posX][posY] == 1)
+    return (flag = false), (timestop = true), ending();
+  if (flag == true) {
+    let bombcount = 0;
+    for (
+      let i = posX == 0 ? 0 : posX - 1;
+      i <= (posX == tablelenx - 1 ? tablelenx - 1 : posX + 1);
+      i++
+    ) {
+      for (
+        let j = posY == 0 ? 0 : posY - 1;
+        j <= (posY == tebleleny - 1 ? tebleleny - 1 : posY + 1);
+        j++
+      ) {
+        if (answer[i][j] == 1) bombcount++;
+      }
+    }
+
+    if (bombcount == 0) bombcount = "0️⃣";
+    if (bombcount == 1) bombcount = "1️⃣";
+    if (bombcount == 2) bombcount = "2️⃣";
+    if (bombcount == 3) bombcount = "3️⃣";
+    if (bombcount == 4) bombcount = "4️⃣";
+    if (bombcount == 5) bombcount = "5️⃣";
+    if (bombcount == 6) bombcount = "6️⃣";
+    if (bombcount == 7) bombcount = "7️⃣";
+    if (bombcount == 8) bombcount = "8️⃣";
+
+    document.getElementById(posX + 1 + "_" + (posY + 1)).innerHTML = bombcount;
+  }
+}
+
+//遊戲結束
+function ending() {
+  document.getElementById("gameover").innerHTML = "GameOver";
+  let x = parseInt(document.getElementById("long").value, 10);
+  let y = parseInt(document.getElementById("wide").value, 10);
+  //console.log(x,y)
+  for (let i = 0; i < y; i++) {
+    for (let j = 0; j < x; j++) {
+      if (answer[i][j] == 1) {
+        document.getElementById(i + 1 + "_" + (j + 1)).innerHTML = "💣";
+        //console.log("💣");
+      }
+    }
+  }
+}
+
+//經過時間
+function Elapsed_time() {
+  let time = 0;
+  let timer = setInterval(() => {
+    //console.log("1s");
+    document.getElementById("time").innerHTML = "經過時間：" + time;
+    time++;
+    if (timestop == true) {
+      clearTimeout(timer);
+    }
+  }, 1000);
+}
+
+//開始計時
+let clickbutton = false;
+function timer_start(event) {
+  //console.log(event.button);
+  if (event.button == 0 && clickbutton == false) {
+    clickbutton = true;
+    Elapsed_time();
+  }
+}
+
+//重新開始
+function resectgame() {
+  let x = parseInt(document.getElementById("long").value, 10);
+  let y = parseInt(document.getElementById("wide").value, 10);
+  document.getElementById("gameover").innerHTML = "";
+  //重製遊戲版面
+  for (let i = 0; i < y; i++) {
+    for (let j = 0; j < x; j++) {
+      document.getElementById(i + 1 + "_" + (j + 1)).innerHTML = "❓";
+      console.log("❓");
+    }
+  }
+  //重製答案
+  answer = [];
+  senser_creatanswer = true;
+  console.log(answer);
+  //重製時間
+  document.getElementById("time").innerHTML = "經過時間：0";
+  timestop = false;
+  clickbutton = false;
+  //檢查是否可繼續遊玩
+  flag = false;
+  console.log(flag);
+}

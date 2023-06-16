@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="踩地雷_2.js"></script>
+    <title>踩地雷Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        X:{{lenx}} Y:{{leny}} flag:{{flag_html}}
+        <br />
+        X:<input
+          type="number"
+          id="long"
+          min="5"
+          v-model="lenx"
+          :disabled="isdisabled"
+          ondrop="return false;"
+          onpaste="return false;"
+        />
+        <br />
+        Y:<input
+          type="number"
+          id="wide"
+          min="5"
+          v-model="leny"
+          :disabled="isdisabled"
+          ondrop="return false;"
+          onpaste="return false;"
+        />
+        <br />
+        炸彈數量：<input
+          id="numberofbomb"
+          type="number"
+          v-model="input_bomb"
+          min="1"
+          :max="leny*lenx-1"
+          :disabled="isdisabled"
+        />
+        <p id="time">經過時間：0</p>
+
+        <!--遊戲開始-->
+        <input
+          type="button"
+          value="Start"
+          @click="new_game()"
+          :disabled="isdisabled"
+        />
+        <!--遊戲區域-->
+        <table align="center" onmousedown="timer_start(event)">
+          <tr v-for="(yitem,ykey) in leny" :key="ykey">
+            <td v-for="(xitem,xkey) in lenx" :key="xkey">
+              <button
+                :id="yitem + '_' + xitem"
+                :disabled="tabledisabled"
+                class="btngroup"
+                @click="findwhere()"
+              >
+                ❓
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="gameover" @click="resect_game()"></div>
+    </div>
+
+    <script>
+      let Y = 2;
+      Vue.createApp({
+        data() {
+          return {
+            lenx: 5,
+            leny: 5,
+            input_bomb: 10,
+            flag_html: false,
+            isdisabled: false, //控制x y button 是否可以按
+            tabledisabled: true,
+          };
+        },
+        watch: {
+          /*lenx: {
+              handler: function () {
+                console.log("x change:" + this.x);
+              },
+            },*/
+          /*leny: {
+              handler: function () {
+                console.log("y change:" + this.y);
+              },
+            },*/
+        },
+        methods: {
+          //定位
+          findwhere(lenx, leny) {
+            if (this.flag_html === true) {
+              let collection = document.getElementsByTagName("td");
+              for (let i = 0; i < collection.length; i++) {
+                collection[i].onclick = function (e) {
+                  let table =
+                      e.target.parentElement.parentElement.parentElement
+                        .parentElement,
+                    targetTr = e.target.parentElement.parentElement,
+                    targetTd = e.target.parentElement,
+                    x = null,
+                    y = null;
+
+                  for (let trIdx = 0; trIdx < table.rows.length; trIdx++) {
+                    if (table.rows[trIdx] == targetTr) {
+                      x = trIdx;
+                      for (
+                        let tdIdx = 0;
+                        tdIdx < targetTr.cells.length;
+                        tdIdx++
+                      ) {
+                        if (targetTr.cells[tdIdx] == targetTd) {
+                          y = tdIdx;
+                          console.log(x, y);
+                          creatanswer(x, y);
+                          clickCall(x, y);
+                          break;
+                        }
+                      }
+                      if (answer[x][y] == 1) {
+                        this.flag_html = false;
+                        console.log("flag_html = false");
+                      }
+                    }
+                  }
+                  console.log(e);
+                };
+              }
+            }
+          },
+
+          //遊戲開始
+          new_game() {
+            this.flag_html = true;
+            this.isdisabled = true;
+            this.tabledisabled = false;
+            newGame();
+          },
+
+          resect_game() {
+            this.flag_html = false;
+            this.isdisabled = false;
+            this.tabledisabled = true;
+            resectgame();
+          },
+        },
+      }).mount("#app");
+    </script>
+    <style>
+      .btngroup {
+        font-size: 30px;
+      }
+    </style>
+  </body>
+</html>
