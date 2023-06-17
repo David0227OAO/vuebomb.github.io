@@ -55,7 +55,7 @@
           <tr v-for="(yitem,ykey) in leny" :key="ykey">
             <td v-for="(xitem,xkey) in lenx" :key="xkey">
               <button
-                :id="yitem + '_' + xitem"
+                :id="(yitem-1) + '_' + (xitem-1)"
                 :disabled="tabledisabled"
                 class="btngroup"
               >
@@ -99,7 +99,7 @@
             if (this.flag_html === true) {
               let collection = document.getElementsByTagName("td");
               for (let i = 0; i < collection.length; i++) {
-                collection[i].onclick = function (e) {
+                /*collection[i].onclick = function (e) {
                   let table =
                       e.target.parentElement.parentElement.parentElement
                         .parentElement,
@@ -131,18 +131,29 @@
                     }
                   }
                   console.log(e);
-                };
-                console.log("prepare", collection[i]);
+                };*/
+                //console.log("prepare", collection[i]);
 
                 //偵測左右鍵
                 collection[i].onmousedown = function (e) {
                   console.log(e)
-                  //console.log("button" + e.button);
-                  console.log(e.srcElement.innerText);
+                  console.log("button" + e.button);
+                  //console.log(e.srcElement.innerText);
                   if (e.button == 2 && e.srcElement.innerText == "❓")
                     e.srcElement.innerText = "🏴";
                   else if (e.button == 2 && e.srcElement.innerText == "🏴")
                     e.srcElement.innerText = "❓";
+                  if (e.button == 0 && e.srcElement.innerText == "❓") {
+                    const xy = e.srcElement.id.split("_");
+                    console.log(xy[0]);
+                    console.log(xy[1]);
+                    creatanswer(xy[0], xy[1]);
+                    clickCall(xy[0], xy[1]);
+                    if (answer[xy[0]][xy[1]] == 1) {
+                      this.flag_html = false;
+                      console.log("flag_html = false");
+                    }
+                  }
                 };
               }
             }
