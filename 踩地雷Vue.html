@@ -8,7 +8,7 @@
     <script src="踩地雷_2.js"></script>
     <title>踩地雷Vue</title>
   </head>
-  <body>
+  <body oncontextmenu="return false">
     <div id="app">
       <div>
         X:{{lenx}} Y:{{leny}} flag:{{flag_html}}
@@ -47,7 +47,7 @@
         <input
           type="button"
           value="Start"
-          @click="new_game()"
+          @click="new_game(),findwhere()"
           :disabled="isdisabled"
         />
         <!--遊戲區域-->
@@ -58,7 +58,6 @@
                 :id="yitem + '_' + xitem"
                 :disabled="tabledisabled"
                 class="btngroup"
-                @click="findwhere()"
               >
                 ❓
               </button>
@@ -132,6 +131,18 @@
                     }
                   }
                   console.log(e);
+                };
+                console.log("prepare", collection[i]);
+
+                //偵測左右鍵
+                collection[i].onmousedown = function (e) {
+                  console.log(e)
+                  //console.log("button" + e.button);
+                  console.log(e.srcElement.innerText);
+                  if (e.button == 2 && e.srcElement.innerText == "❓")
+                    e.srcElement.innerText = "🏴";
+                  else if (e.button == 2 && e.srcElement.innerText == "🏴")
+                    e.srcElement.innerText = "❓";
                 };
               }
             }
