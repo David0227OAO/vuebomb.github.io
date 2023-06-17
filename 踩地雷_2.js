@@ -15,18 +15,23 @@ function creatanswer(posx, posy) {
     let bomb = document.getElementById("numberofbomb").value; //炸彈數量
     let x = document.getElementById("long").value; //抓長
     let y = document.getElementById("wide").value; //抓寬
-    //console.log("creatanswer");
     let boom = 0; //炸彈數量
+    console.log("creatanswer");
     //設定炸彈位置
     function resectbomb() {
       for (let i = 0; i < y; i++) {
         for (let j = 0; j < x; j++) {
           if (!answer[i]) answer[i] = [];
           let val = Math.floor(Math.random() * 4);
-          if (answer[i][j] == 1) continue;
-          else if (i == posx && j == posy) continue;
+          if (i == posx && j == posy) {
+            answer[i][j] = 0;
+            continue;
+          } else if (answer[i][j] == 1) continue;
           else if (boom < bomb) answer[i][j] = val < 3 ? 0 : 1;
-          if (answer[i][j] == 1) boom++;
+          if (answer[i][j] == 1) {
+            boom++;
+            console.log(boom);
+          }
           //console.log(boom);
           if (boom == bomb) break;
         }
@@ -45,9 +50,9 @@ function creatanswer(posx, posy) {
 function clickCall(posX, posY) {
   let tablelenx = document.getElementById("long").value; //遊戲區塊 X
   let tebleleny = document.getElementById("wide").value; //遊戲區塊 Y
-  tablelenx.disabled = true;
-  tebleleny.disabled = true;
-  //console.log(lenx,leny)
+  posX = posX--;
+  posY = posY--;
+  console.log(posX, posY);
   if (answer[posX][posY] == 1)
     return (flag = false), (timestop = true), ending();
   if (flag == true) {
@@ -76,7 +81,7 @@ function clickCall(posX, posY) {
     if (bombcount == 7) bombcount = "7️⃣";
     if (bombcount == 8) bombcount = "8️⃣";
 
-    document.getElementById(posX + 1 + "_" + (posY + 1)).innerHTML = bombcount;
+    document.getElementById(posX + "_" + posY).innerHTML = bombcount;
   }
 }
 
@@ -89,7 +94,7 @@ function ending() {
   for (let i = 0; i < y; i++) {
     for (let j = 0; j < x; j++) {
       if (answer[i][j] == 1) {
-        document.getElementById(i + 1 + "_" + (j + 1)).innerHTML = "💣";
+        document.getElementById(i + "_" + j).innerHTML = "💣";
         //console.log("💣");
       }
     }
@@ -127,7 +132,7 @@ function resectgame() {
   //重製遊戲版面
   for (let i = 0; i < y; i++) {
     for (let j = 0; j < x; j++) {
-      document.getElementById(i + 1 + "_" + (j + 1)).innerHTML = "❓";
+      document.getElementById(i + "_" + j).innerHTML = "❓";
       console.log("❓");
     }
   }
