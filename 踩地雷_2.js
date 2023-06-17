@@ -48,11 +48,11 @@ function creatanswer(posx, posy) {
 
 //確認周圍有多少炸彈
 function clickCall(posX, posY) {
-  let tablelenx = document.getElementById("long").value; //遊戲區塊 X
-  let tebleleny = document.getElementById("wide").value; //遊戲區塊 Y
+  let tablelenx = parseInt(document.getElementById("long").value, 10); //遊戲區塊 X
+  let tableleny = parseInt(document.getElementById("wide").value, 10); //遊戲區塊 Y
   posX = posX--;
   posY = posY--;
-  console.log(posX, posY);
+  console.log(posX, posY, tablelenx, tableleny);
   if (answer[posX][posY] == 1)
     return (flag = false), (timestop = true), ending();
   if (flag == true) {
@@ -64,9 +64,10 @@ function clickCall(posX, posY) {
     ) {
       for (
         let j = posY == 0 ? 0 : posY - 1;
-        j <= (posY == tebleleny - 1 ? tebleleny - 1 : posY + 1);
+        j <= (posY == tableleny - 1 ? tableleny - 1 : posY + 1);
         j++
       ) {
+        console.log(answer[i][j]);
         if (answer[i][j] == 1) bombcount++;
       }
     }
