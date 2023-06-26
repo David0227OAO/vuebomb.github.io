@@ -25,8 +25,8 @@ function creatanswer(posx, posy) {
         }
       }
       let a = [];
-      for (let i = 0; i < y; i++) {
-        for (let j = 0; j < x; j++) {
+      for (let i = 0; i < x; i++) {
+        for (let j = 0; j < y; j++) {
           const value = i + "_" + j; // 在字符串后面添加分隔符号
           a.push(value);
           if (!answer[i]) answer[i] = [];
@@ -74,7 +74,7 @@ function clickCall(posX, posY) {
         j <= (posY == tebleleny - 1 ? tebleleny - 1 : posY + 1);
         j++
       ) {
-        if (answer[j][i] == 1) bombcount++;
+        if (answer[i][j] == 1) bombcount++;
       }
     }
     if (bombcount == 0) bombcount = "0️⃣";
