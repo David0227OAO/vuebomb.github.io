@@ -74,7 +74,7 @@
         data() {
           return {
             lenx: 5,
-            leny: 6,
+            leny: 10,
             input_bomb: 10,
             flag_html: false,
             isdisabled: false, //控制x y button 是否可以按
@@ -136,8 +136,8 @@
 
                 //偵測左右鍵
                 collection[i].onmousedown = function (e) {
-                  console.log(e);
-                  console.log("button" + e.button);
+                  //console.log(e);
+                  //console.log("button" + e.button);
                   //console.log(e.srcElement.innerText);
                   if (e.button == 2 && e.srcElement.innerText == "❓")
                     e.srcElement.innerText = "🏴";

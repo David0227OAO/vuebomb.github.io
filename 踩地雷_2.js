@@ -15,44 +15,51 @@ function creatanswer(posx, posy) {
     let bomb = document.getElementById("numberofbomb").value; //炸彈數量
     let x = document.getElementById("long").value; //抓長
     let y = document.getElementById("wide").value; //抓寬
-    let boom = 0; //炸彈數量
-    console.log("creatanswer");
+    console.log("creatanswer" + x, y);
     //設定炸彈位置
     function resectbomb() {
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+      let a = [];
       for (let i = 0; i < y; i++) {
         for (let j = 0; j < x; j++) {
+          const value = i + "_" + j; // 在字符串后面添加分隔符号
+          a.push(value);
           if (!answer[i]) answer[i] = [];
-          let val = Math.floor(Math.random() * 4);
-          if (i == posx && j == posy) {
-            answer[i][j] = 0;
-            continue;
-          } else if (answer[i][j] == 1) continue;
-          else if (boom < bomb) answer[i][j] = val < 3 ? 0 : 1;
-          if (answer[i][j] == 1) {
-            boom++;
-            console.log(boom);
-          }
-          //console.log(boom);
-          if (boom == bomb) break;
+          answer[i][j] = 0;
         }
-        if (boom == bomb) break;
+      }
+      console.log(a);
+      shuffle(a);
+      console.log(a);
+      for (let i = 0; i < bomb; i++) {
+        if (a[i] == posy + "_" + posx) {
+          bomb++;
+          continue;
+        }
+        let temp = a[i].split("_");
+        answer[temp[0]][temp[1]] = 1;
+        console.log("bomb");
       }
     }
-    while (boom < bomb) resectbomb();
+    resectbomb();
     //console.log(bomb);
     //console.log(x,y);
     console.log(answer);
   }
   senser_creatanswer = false;
 }
-
 //確認周圍有多少炸彈
 function clickCall(posX, posY) {
-  let tablelenx = parseInt(document.getElementById("long").value, 10); //遊戲區塊 X
-  let tableleny = parseInt(document.getElementById("wide").value, 10); //遊戲區塊 Y
+  let tablelenx = document.getElementById("long").value; //遊戲區塊 X
+  let tebleleny = document.getElementById("wide").value; //遊戲區塊 Y
   posX = posX--;
   posY = posY--;
-  console.log(posX, posY, tablelenx, tableleny);
+  console.log(posX, posY);
   if (answer[posX][posY] == 1)
     return (flag = false), (timestop = true), ending();
   if (flag == true) {
@@ -64,14 +71,12 @@ function clickCall(posX, posY) {
     ) {
       for (
         let j = posY == 0 ? 0 : posY - 1;
-        j <= (posY == tableleny - 1 ? tableleny - 1 : posY + 1);
+        j <= (posY == tebleleny - 1 ? tebleleny - 1 : posY + 1);
         j++
       ) {
-        console.log(answer[i][j]);
-        if (answer[i][j] == 1) bombcount++;
+        if (answer[j][i] == 1) bombcount++;
       }
     }
-
     if (bombcount == 0) bombcount = "0️⃣";
     if (bombcount == 1) bombcount = "1️⃣";
     if (bombcount == 2) bombcount = "2️⃣";
@@ -81,7 +86,7 @@ function clickCall(posX, posY) {
     if (bombcount == 6) bombcount = "6️⃣";
     if (bombcount == 7) bombcount = "7️⃣";
     if (bombcount == 8) bombcount = "8️⃣";
-
+    console.log(posX,posY)
     document.getElementById(posX + "_" + posY).innerHTML = bombcount;
   }
 }
@@ -91,12 +96,12 @@ function ending() {
   document.getElementById("gameover").innerHTML = "GameOver";
   let x = parseInt(document.getElementById("long").value, 10);
   let y = parseInt(document.getElementById("wide").value, 10);
-  //console.log(x,y)
-  for (let i = 0; i < y; i++) {
-    for (let j = 0; j < x; j++) {
+  console.log(x,y)
+  for (let i = 0; i < x; i++) {
+    for (let j = 0; j < y; j++) {
       if (answer[i][j] == 1) {
         document.getElementById(i + "_" + j).innerHTML = "💣";
-        //console.log("💣");
+        console.log("💣");
       }
     }
   }
