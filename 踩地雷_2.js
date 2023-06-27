@@ -6,7 +6,7 @@ let senser_creatanswer = true; //是否要設定answerarray
 //新局呼叫
 function newGame() {
   flag = true;
-  console.log(flag);
+  //console.log(flag);
 }
 
 //產生地雷位置
@@ -15,7 +15,7 @@ function creatanswer(posx, posy) {
     let bomb = document.getElementById("numberofbomb").value; //炸彈數量
     let x = document.getElementById("long").value; //抓長
     let y = document.getElementById("wide").value; //抓寬
-    console.log("creatanswer" + x, y);
+    //console.log("creatanswer" + x, y);
     //設定炸彈位置
     function resectbomb() {
       function shuffle(array) {
@@ -33,9 +33,9 @@ function creatanswer(posx, posy) {
           answer[i][j] = 0;
         }
       }
-      console.log(a);
+      //console.log(a);
       shuffle(a);
-      console.log(a);
+      //console.log(a);
       for (let i = 0; i < bomb; i++) {
         if (a[i] == posx + "_" + posy) {
           bomb++;
@@ -49,7 +49,7 @@ function creatanswer(posx, posy) {
     resectbomb();
     //console.log(bomb);
     //console.log(x,y);
-    console.log(answer);
+    //console.log(answer);
   }
   senser_creatanswer = false;
 }
@@ -86,7 +86,7 @@ function clickCall(posX, posY) {
     if (bombcount == 6) bombcount = "6️⃣";
     if (bombcount == 7) bombcount = "7️⃣";
     if (bombcount == 8) bombcount = "8️⃣";
-    console.log(posX,posY)
+    //console.log(posX,posY)
     document.getElementById(posX + "_" + posY).innerHTML = bombcount;
     if (Vactory()) {
       flag = false;
@@ -120,12 +120,12 @@ function ending() {
   document.getElementById("game_ending").innerHTML = "GameOver";
   let x = parseInt(document.getElementById("long").value, 10);
   let y = parseInt(document.getElementById("wide").value, 10);
-  console.log(x,y)
+  //console.log(x,y)
   for (let i = 0; i < x; i++) {
     for (let j = 0; j < y; j++) {
       if (answer[i][j] == 1) {
         document.getElementById(i + "_" + j).innerHTML = "💣";
-        console.log("💣");
+        //console.log("💣");
       }
     }
   }

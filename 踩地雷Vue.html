@@ -11,7 +11,7 @@
   <body oncontextmenu="return false">
     <div id="app">
       <div>
-        X:{{lenx}} Y:{{leny}} flag:{{flag_html}}
+        X:{{lenx}} Y:{{leny}}
         <br />
         X:<input
           type="number"
@@ -56,7 +56,7 @@
             <td v-for="(xitem,xkey) in lenx" :key="xkey">
               <button
                 :id="(xitem-1) + '_' + (yitem-1)"
-                :disabled="tabledisabled"
+                :disabled="!isdisabled"
                 class="btngroup"
               >
                 ❓
@@ -74,11 +74,9 @@
         data() {
           return {
             lenx: 5,
-            leny: 10,
+            leny: 5,
             input_bomb: 10,
-            flag_html: false,
             isdisabled: false, //控制x y button 是否可以按
-            tabledisabled: true,
           };
         },
         watch: {
@@ -95,11 +93,10 @@
         },
         methods: {
           //定位
-          findwhere(lenx, leny) {
-            if (this.flag_html === true) {
-              let collection = document.getElementsByTagName("td");
-              for (let i = 0; i < collection.length; i++) {
-                /*collection[i].onclick = function (e) {
+          findwhere() {
+            let collection = document.getElementsByTagName("td");
+            for (let i = 0; i < collection.length; i++) {
+              /*collection[i].onclick = function (e) {
                   let table =
                       e.target.parentElement.parentElement.parentElement
                         .parentElement,
@@ -132,13 +129,14 @@
                   }
                   console.log(e);
                 };*/
-                //console.log("prepare", collection[i]);
+              //console.log("prepare", collection[i]);
 
-                //偵測左右鍵
-                collection[i].onmousedown = function (e) {
-                  //console.log(e);
-                  //console.log("button" + e.button);
-                  //console.log(e.srcElement.innerText);
+              //偵測左右鍵
+              collection[i].onmousedown = function (e) {
+                //console.log(e);
+                //console.log("button" + e.button);
+                //console.log(e.srcElement.innerText);
+                if (flag == true) {
                   if (e.button == 2 && e.srcElement.innerText == "❓")
                     e.srcElement.innerText = "🏴";
                   else if (e.button == 2 && e.srcElement.innerText == "🏴")
@@ -149,28 +147,20 @@
                     console.log(xy[1]);*/
                     creatanswer(xy[0], xy[1]);
                     clickCall(xy[0], xy[1]);
-                    if (answer[xy[0]][xy[1]] == 1) {
-                      this.flag_html = false;
-                      console.log("flag_html = false");
-                    }
                   }
-                };
-              }
+                }
+              };
             }
           },
 
           //遊戲開始
           new_game() {
-            this.flag_html = true;
             this.isdisabled = true;
-            this.tabledisabled = false;
             newGame();
           },
 
           resect_game() {
-            this.flag_html = false;
             this.isdisabled = false;
-            this.tabledisabled = true;
             resectgame();
           },
         },
