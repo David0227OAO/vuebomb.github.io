@@ -43,7 +43,7 @@ function creatanswer(posx, posy) {
         }
         let temp = a[i].split("_");
         answer[temp[0]][temp[1]] = 1;
-        console.log("bomb");
+        //console.log("bomb");
       }
     }
     resectbomb();
@@ -59,10 +59,10 @@ function clickCall(posX, posY) {
   let tebleleny = document.getElementById("wide").value; //遊戲區塊 Y
   posX = posX--;
   posY = posY--;
-  console.log(posX, posY);
+  if (flag == true) {
+  //console.log(posX, posY);
   if (answer[posX][posY] == 1)
     return (flag = false), (timestop = true), ending();
-  if (flag == true) {
     let bombcount = 0;
     for (
       let i = posX == 0 ? 0 : posX - 1;
@@ -88,12 +88,36 @@ function clickCall(posX, posY) {
     if (bombcount == 8) bombcount = "8️⃣";
     console.log(posX,posY)
     document.getElementById(posX + "_" + posY).innerHTML = bombcount;
+    if (Vactory()) {
+      flag = false;
+      timestop = true;
+      winner();
+      // 執行遊戲成功的相應操作
+    }
   }
 }
 
-//遊戲結束
+function Vactory() {
+  let x = parseInt(document.getElementById("long").value, 10);
+  let y = parseInt(document.getElementById("wide").value, 10);
+  for (let i = 0; i < x; i++) {
+    for (let j = 0; j < y; j++) {
+      if (answer[i][j] === 0 && document.getElementById(i + "_" + j).innerText === "❓") {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+//遊戲勝利
+function winner() {
+  document.getElementById("game_ending").innerHTML = "Winner";
+}
+
+//遊戲失敗
 function ending() {
-  document.getElementById("gameover").innerHTML = "GameOver";
+  document.getElementById("game_ending").innerHTML = "GameOver";
   let x = parseInt(document.getElementById("long").value, 10);
   let y = parseInt(document.getElementById("wide").value, 10);
   console.log(x,y)
@@ -134,7 +158,7 @@ function timer_start(event) {
 function resectgame() {
   let x = parseInt(document.getElementById("long").value, 10);
   let y = parseInt(document.getElementById("wide").value, 10);
-  document.getElementById("gameover").innerHTML = "";
+  document.getElementById("game_ending").innerHTML = "";
   //重製遊戲版面
   for (let i = 0; i < x; i++) {
     for (let j = 0; j < y; j++) {

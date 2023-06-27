@@ -65,7 +65,7 @@
           </tr>
         </table>
       </div>
-      <div id="gameover" @click="resect_game()"></div>
+      <div id="game_ending" @click="resect_game()"></div>
     </div>
 
     <script>
@@ -75,7 +75,7 @@
           return {
             lenx: 5,
             leny: 10,
-            input_bomb: 49,
+            input_bomb: 10,
             flag_html: false,
             isdisabled: false, //控制x y button 是否可以按
             tabledisabled: true,
@@ -132,7 +132,7 @@
                   }
                   console.log(e);
                 };*/
-                console.log("prepare", collection[i]);
+                //console.log("prepare", collection[i]);
 
                 //偵測左右鍵
                 collection[i].onmousedown = function (e) {
@@ -145,8 +145,8 @@
                     e.srcElement.innerText = "❓";
                   if (e.button == 0 && e.srcElement.innerText == "❓") {
                     const xy = e.srcElement.id.split("_");
-                    console.log(xy[0]);
-                    console.log(xy[1]);
+                    /*console.log(xy[0]);
+                    console.log(xy[1]);*/
                     creatanswer(xy[0], xy[1]);
                     clickCall(xy[0], xy[1]);
                     if (answer[xy[0]][xy[1]] == 1) {
