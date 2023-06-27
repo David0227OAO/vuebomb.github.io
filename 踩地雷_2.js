@@ -37,7 +37,7 @@ function creatanswer(posx, posy) {
       shuffle(a);
       console.log(a);
       for (let i = 0; i < bomb; i++) {
-        if (a[i] == posy + "_" + posx) {
+        if (a[i] == posx + "_" + posy) {
           bomb++;
           continue;
         }
@@ -136,8 +136,8 @@ function resectgame() {
   let y = parseInt(document.getElementById("wide").value, 10);
   document.getElementById("gameover").innerHTML = "";
   //重製遊戲版面
-  for (let i = 0; i < y; i++) {
-    for (let j = 0; j < x; j++) {
+  for (let i = 0; i < x; i++) {
+    for (let j = 0; j < y; j++) {
       document.getElementById(i + "_" + j).innerHTML = "❓";
       console.log("❓");
     }
