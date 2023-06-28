@@ -127,6 +127,10 @@ function ending() {
         document.getElementById(i + "_" + j).innerHTML = "💣";
         //console.log("💣");
       }
+      if(answer[i][j] == 0 && document.getElementById(i + "_" + j).innerText == "🏴"){
+        document.getElementById(i + "_" + j).innerHTML = "❌";
+        //console.log("❌")
+      }
     }
   }
 }
@@ -163,18 +167,18 @@ function resectgame() {
   for (let i = 0; i < x; i++) {
     for (let j = 0; j < y; j++) {
       document.getElementById(i + "_" + j).innerHTML = "❓";
-      console.log("❓");
+      //console.log("❓");
     }
   }
   //重製答案
   answer = [];
   senser_creatanswer = true;
-  console.log(answer);
+  //console.log(answer);
   //重製時間
   document.getElementById("time").innerHTML = "經過時間：0";
   timestop = false;
   clickbutton = false;
   //檢查是否可繼續遊玩
   flag = false;
-  console.log(flag);
+  //sconsole.log(flag);
 }
