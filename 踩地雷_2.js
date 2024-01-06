@@ -43,7 +43,7 @@ function creatanswer(posx, posy) {
         }
         let temp = a[i].split("_");
         answer[temp[0]][temp[1]] = 1;
-        console.log("bomb");
+        //console.log("bomb");
       }
     }
     resectbomb();
