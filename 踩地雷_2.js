@@ -43,7 +43,7 @@ function creatanswer(posx, posy) {
         }
         let temp = a[i].split("_");
         answer[temp[0]][temp[1]] = 1;
-        //console.log("bomb");
+        console.log("bomb");
       }
     }
     resectbomb();
@@ -62,7 +62,7 @@ function clickCall(posX, posY) {
   if (flag == true) {
   //console.log(posX, posY);
   if (answer[posX][posY] == 1)
-    return (flag = false), (timestop = true), ending();
+    return (flag = false), (timestop = true), ending(), bombsound();//遊戲失敗執行
     let bombcount = 0;
     for (
       let i = posX == 0 ? 0 : posX - 1;
@@ -135,6 +135,16 @@ function ending() {
   }
 }
 
+//開始計時
+let clickbutton = false;
+function timer_start(event) {
+  //console.log(event.button);
+  if (event.button == 0 && clickbutton == false) {
+    clickbutton = true;
+    Elapsed_time();
+  }
+}
+
 //經過時間
 function Elapsed_time() {
   let time = 0;
@@ -146,16 +156,6 @@ function Elapsed_time() {
       clearTimeout(timer);
     }
   }, 1000);
-}
-
-//開始計時
-let clickbutton = false;
-function timer_start(event) {
-  //console.log(event.button);
-  if (event.button == 0 && clickbutton == false) {
-    clickbutton = true;
-    Elapsed_time();
-  }
 }
 
 //重新開始
@@ -181,4 +181,10 @@ function resectgame() {
   //檢查是否可繼續遊玩
   flag = false;
   //sconsole.log(flag);
+}
+
+//炸彈爆炸聲音
+function bombsound() {
+  const bombsound = new Audio('bomb.mp3');
+  bombsound.play();
 }
